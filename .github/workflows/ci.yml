@@ -26,8 +26,8 @@ jobs:
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo test --all-features
 
-  clippy:
-    name: clippy
+  linting:
+    name: cargo clippy
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -35,9 +35,25 @@ jobs:
       - run: cargo clippy -- -D warnings
 
   fmt:
-    name: fmt
+    name: cargo fmt
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - run: cargo fmt --all -- --check
+
+  coverage:
+    name: cargo tarpaulin
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo tarpaulin --ignore-tests
+
+  audit:
+    name: cargo audit
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo audit
